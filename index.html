@@ -18,16 +18,11 @@
       <nav>
         <div id="logo">
           <img src="./images/pokemon logo.svg" alt="" />
-          <h3>Pokedex</h3>
+          <h3 id="home-button">Pokedex</h3>
         </div>
-        <header>
-          <button id="home-button">Home</button>
-          <button id="previous-button">Previous</button>
-          <button id="next-button">Next</button>
-        </header>
         <div id="search-and-select">
           <input type="text" id="search-bar" placeholder="Search for name..." />
-          <label for="pokemon-amount">How many per page:</label>
+          <label for="pokemon-amount">Pokemon per page:</label>
           <select name="pokemon per page" id="pokemon-amount">
             <option value="20">20</option>
             <option value="50">50</option>
@@ -37,8 +32,21 @@
         </div>
       </nav>
     </div>
+    <header>
+      <button id="previous-button">
+        <img
+          src="./images/arrow-left.svg"
+          alt="arrow button to previous page"
+        />
+      </button>
+      <button id="next-button">
+        <img src="./images/arrow-right.svg" alt="arrow button to next page" />
+      </button>
+    </header>
 
     <p id="error-message"></p>
-    <div id="pokemon-container"></div>
+    <div class="container-for-margin">
+      <div id="pokemon-container"></div>
+    </div>
   </body>
 </html>

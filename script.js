@@ -31,7 +31,7 @@ prevButton.addEventListener("click", () => {
   if (pokemonList.previous) displayPokemonList(pokemonList.previous);
   else
     displayPokemonList(
-      `https://pokeapi.co/api/v2/pokemon?offset=${pokemonList.lastPage}&limit=20`
+      `https://pokeapi.co/api/v2/pokemon?offset=${pokemonList.lastPage}&limit=${pokemonAmount}`
     );
 });
 
@@ -68,8 +68,8 @@ const updatePokemonList = async (url) => (pokemonList = await getData(url));
  * @returns
  */
 
-const setLastPage = (perPage = 20) =>
-  (pokemonList.LastPage = Math.floor(pokemonList.count / perPage) * perPage);
+const setLastPage = (perPage = pokemonAmount) =>
+  (pokemonList.lastPage = Math.floor(pokemonList.count / perPage) * perPage);
 
 //displays list of pokemon based on given url
 async function displayPokemonList(url) {
@@ -83,8 +83,11 @@ async function displayPokemonList(url) {
     console.log(pokemon.url);
 
     const containerEl = document.createElement("div");
+    containerEl.classList.add("pokemon-container");
+
     const titleEl = document.createElement("h2");
     titleEl.textContent = `${pokemonExtraData.id}. ${pokemon.name}`;
+    titleEl.classList.add("title");
 
     const imageEl = document.createElement("img");
     imageEl.alt = `image of ${pokemon.name}`;
@@ -108,7 +111,9 @@ async function displayPokemonDetails(pokemonData) {
     pokemonData;
   const containerEl = document.createElement("div");
   const titleEl = document.createElement("h2");
+
   titleEl.textContent = `${id}. ${name}`;
+  titleEl.classList.add("title");
 
   const imageEl = document.createElement("img");
   imageEl.alt = `image of ${name}`;
@@ -160,4 +165,5 @@ async function displayPokemonDetails(pokemonData) {
   pokemonContainer.append(containerEl);
 }
 
+pokemonContainer.classList.add("main-container");
 displayPokemonList();

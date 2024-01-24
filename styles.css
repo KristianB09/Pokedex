@@ -9,6 +9,8 @@ body .nav-container {
   background-color: #b45c64;
   display: flex;
   justify-content: center;
+  position: fixed;
+  top: 0px;
 }
 
 .nav-container h3 {
@@ -27,14 +29,38 @@ nav {
 #home-button {
 }
 
-nav button {
+header {
+  position: fixed;
+  bottom: 5rem;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3rem;
+  display: flex;
+}
+
+header button {
   font-family: "Montserrat";
   border: none;
-  background-color: #b45c64;
-  color: white;
+  background-color: white;
+  color: darkgrey;
   font-size: 1.8rem;
-  font-weight: 600;
-  margin-left: 2rem;
+  padding: 0;
+  font-weight: 400;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 5000rem;
+  cursor: pointer;
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 2px 8px 0px rgba(35, 35, 35, 0.51);
+}
+
+header button img {
+  width: 4rem;
 }
 
 #logo {
@@ -60,4 +86,57 @@ nav button {
   border-radius: 50rem;
   text-indent: 2rem;
   width: 40rem;
+  font-family: "Montserrat";
+}
+
+#search-bar::placeholder {
+  color: hsl(0, 0%, 30%);
+  font-family: "Montserrat";
+}
+
+label {
+  font-size: 2rem;
+  font-family: "Montserrat";
+  margin-left: 3rem;
+  color: white;
+}
+
+select {
+  border: none;
+  height: 4rem;
+  width: 6rem;
+  text-align: center;
+  padding-left: 1rem;
+  margin-left: 2rem;
+  border-radius: 20rem;
+  font-family: "Montserrat";
+  font-size: 1.6rem;
+}
+
+.main-container {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.title {
+  font-size: 3rem;
+  font-family: "Montserrat";
+  text-transform: capitalize;
+}
+
+.pokemon-container {
+  background-color: hsl(0, 0%, 90%);
+  margin-top: 1.5rem;
+  border-radius: 1rem;
+}
+
+.container-for-margin {
+  margin-top: 7rem;
+}
+
+#home-button {
+  cursor: pointer;
 }
