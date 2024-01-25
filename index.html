@@ -8,6 +8,7 @@
       rel="stylesheet"
     />
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css" />
@@ -20,8 +21,14 @@
           <img src="./images/pokemon logo.svg" alt="" />
           <h3 id="home-button">Pokedex</h3>
         </div>
-        <div id="search-and-select">
+        <div id="search-filter">
           <input type="text" id="search-bar" placeholder="Search for name..." />
+          <input type="checkbox" class="checkbox" id="filter-mega" />
+          <label for="filter only mega">Search for mega</label>
+          <input type="checkbox" class="checkbox" id="filter-gmax" />
+          <label for="filter only gmax">Search for Gmax</label>
+        </div>
+        <div id="search-and-select">
           <label for="pokemon-amount">Pokemon per page:</label>
           <select name="pokemon per page" id="pokemon-amount">
             <option value="20">20</option>

@@ -5,6 +5,7 @@ const nextButton = document.getElementById("next-button");
 const errorMessageEl = document.getElementById("error-message");
 const pokemonContainer = document.getElementById("pokemon-container");
 const howManyPokemon = document.getElementById("pokemon-amount");
+const searchBarEl = document.getElementById("search-bar");
 
 let pokemonAmount = howManyPokemon.value;
 
@@ -89,13 +90,19 @@ async function displayPokemonList(url) {
     titleEl.textContent = `${pokemonExtraData.id}. ${pokemon.name}`;
     titleEl.classList.add("title");
 
+    const pokemonBallImageEl = document.createElement("img");
+    pokemonBallImageEl.src = "./images/Pokeball image.svg";
+    pokemonBallImageEl.alt =
+      "transparent pokeball in the background of pokemon";
+    pokemonBallImageEl.classList.add("pokeball");
+
     const imageEl = document.createElement("img");
     imageEl.alt = `image of ${pokemon.name}`;
     imageEl.style = "max-width: 40%;";
     imageEl.src =
       pokemonExtraData.sprites.other["official-artwork"].front_default;
 
-    containerEl.append(titleEl, imageEl);
+    containerEl.append(titleEl, imageEl, pokemonBallImageEl);
     pokemonContainer.append(containerEl);
 
     containerEl.addEventListener("click", () =>
