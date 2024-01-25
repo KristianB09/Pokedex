@@ -11,6 +11,7 @@ body .nav-container {
   justify-content: center;
   position: fixed;
   top: 0px;
+  z-index: 2;
 }
 
 .nav-container h3 {
@@ -120,6 +121,7 @@ select {
   flex-wrap: wrap;
   justify-content: space-evenly;
   width: 100%;
+  z-index: 1;
 }
 
 .title {
@@ -164,4 +166,10 @@ select {
   height: 1.5rem;
   position: relative;
   bottom: -0.3rem;
+}
+
+@media (max-width: 1340px) {
+  html {
+    font-size: 9px;
+  }
 }

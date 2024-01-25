@@ -111,6 +111,7 @@ async function displayPokemonList(url) {
   }
 }
 
+// What is displayed after you click on a specific pokemon to see details
 async function displayPokemonDetails(pokemonData) {
   pokemonContainer.innerHTML = "";
 
@@ -174,3 +175,14 @@ async function displayPokemonDetails(pokemonData) {
 
 pokemonContainer.classList.add("main-container");
 displayPokemonList();
+
+async function displaySearchedPokemonList(pokemonArray) {
+  pokemonContainer.innerHTML = "";
+
+  for (const pokemon of pokemonArray) {
+    const pokemonExtraData = await getData(pokemon.url);
+
+    const containerEl = document.createElement("div");
+    containerEl.classList.add("");
+  }
+}
