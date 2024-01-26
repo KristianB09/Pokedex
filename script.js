@@ -6,6 +6,8 @@ const errorMessageEl = document.getElementById("error-message");
 const pokemonContainer = document.getElementById("pokemon-container");
 const howManyPokemon = document.getElementById("pokemon-amount");
 const searchBarEl = document.getElementById("search-bar");
+const megaFilter = document.getElementById("filter-mega");
+const gmaxFilter = document.getElementById("filter-gmax");
 
 let pokemonAmount = howManyPokemon.value;
 
@@ -34,6 +36,15 @@ prevButton.addEventListener("click", () => {
     displayPokemonList(
       `https://pokeapi.co/api/v2/pokemon?offset=${pokemonList.lastPage}&limit=${pokemonAmount}`
     );
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight") {
+    nextButton.click();
+  }
+  if (event.key === "ArrowLeft") {
+    prevButton.click();
+  }
 });
 
 const displayError = (errorMessage) => {
@@ -72,6 +83,8 @@ const updatePokemonList = async (url) => (pokemonList = await getData(url));
 const setLastPage = (perPage = pokemonAmount) =>
   (pokemonList.lastPage = Math.floor(pokemonList.count / perPage) * perPage);
 
+// type color array
+
 //displays list of pokemon based on given url
 async function displayPokemonList(url) {
   await updatePokemonList(url);
@@ -81,7 +94,6 @@ async function displayPokemonList(url) {
 
   for (const pokemon of pokemonList.results) {
     const pokemonExtraData = await getData(pokemon.url);
-    console.log(pokemon.url);
 
     const containerEl = document.createElement("div");
     containerEl.classList.add("pokemon-container");
@@ -96,13 +108,23 @@ async function displayPokemonList(url) {
       "transparent pokeball in the background of pokemon";
     pokemonBallImageEl.classList.add("pokeball");
 
+    const typesContainer = document.createElement("div");
+    typesContainer.classList.add("types");
+
+    pokemonExtraData.types.forEach((type) => {
+      const typeEl = document.createElement("p");
+      typeEl.textContent = type.type.name;
+      typesContainer.append(typeEl);
+      typeEl.classList.add("type");
+    });
+
     const imageEl = document.createElement("img");
     imageEl.alt = `image of ${pokemon.name}`;
     imageEl.style = "max-width: 40%;";
     imageEl.src =
       pokemonExtraData.sprites.other["official-artwork"].front_default;
 
-    containerEl.append(titleEl, imageEl, pokemonBallImageEl);
+    containerEl.append(titleEl, imageEl, pokemonBallImageEl, typesContainer);
     pokemonContainer.append(containerEl);
 
     containerEl.addEventListener("click", () =>
@@ -176,6 +198,8 @@ async function displayPokemonDetails(pokemonData) {
 pokemonContainer.classList.add("main-container");
 displayPokemonList();
 
+// Search functions below this line
+
 async function displaySearchedPokemonList(pokemonArray) {
   pokemonContainer.innerHTML = "";
 
@@ -183,6 +207,84 @@ async function displaySearchedPokemonList(pokemonArray) {
     const pokemonExtraData = await getData(pokemon.url);
 
     const containerEl = document.createElement("div");
-    containerEl.classList.add("");
+    containerEl.classList.add("pokemon-container");
+
+    const titleEl = document.createElement("h2");
+    titleEl.textContent = `${pokemonExtraData.id}. ${pokemon.name}`;
+    titleEl.classList.add("title");
+
+    const pokemonBallImageEl = document.createElement("img");
+    pokemonBallImageEl.src = "./images/Pokeball image.svg";
+    pokemonBallImageEl.alt =
+      "transparent pokeball in the background of pokemon";
+    pokemonBallImageEl.classList.add("pokeball");
+
+    const imageEl = document.createElement("img");
+    imageEl.alt = `image of ${pokemon.name}`;
+    imageEl.style = "max-width: 40%;";
+    imageEl.src =
+      pokemonExtraData.sprites.other["official-artwork"].front_default;
+
+    containerEl.append(titleEl, imageEl, pokemonBallImageEl);
+    pokemonContainer.append(containerEl);
+
+    containerEl.addEventListener("click", () =>
+      displayPokemonDetails(pokemonExtraData)
+    );
   }
 }
+
+async function searchPokemon() {
+  const searchText = searchBarEl.value.toLowerCase();
+
+  if (searchText.length < 3) {
+    displayError("Please enter 3 or more characters");
+    return;
+  }
+
+  displayError();
+
+  const pokemonResult = await getData(
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=-1"
+  );
+
+  const pokemonArray = pokemonResult.results;
+
+  const filteredPokemon = pokemonArray.filter((pokemon) => {
+    if (pokemon.name.includes(searchText)) {
+      if (megaFilter.checked) {
+        return pokemon.name.includes("-mega");
+      }
+      if (gmaxFilter.checked) {
+        return pokemon.name.includes("-gmax");
+      }
+      return true;
+    }
+    return false;
+  });
+
+  if (!filteredPokemon.length > 0) {
+    displayError("No pokemons found");
+    return;
+  }
+
+  displaySearchedPokemonList(filteredPokemon);
+}
+
+// note: keypress is deprecated according to developer.mozilla. Hence i use keydown instead.
+
+// pressing enter to search
+searchBarEl.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    searchPokemon();
+  }
+});
+
+// searches automatically when no key has been typed for 1 second.
+let timeOut;
+
+searchBarEl.addEventListener("keyup", () => {
+  clearTimeout(timeOut);
+
+  timeOut = setTimeout(searchPokemon, 1000);
+});
