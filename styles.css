@@ -217,7 +217,7 @@ select {
     font-size: 9px;
   }
 
-  nav #home-button {
+  nav h3 {
     display: none;
   }
 }
