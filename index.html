@@ -23,16 +23,22 @@
         </div>
         <div id="search-filter">
           <input type="text" id="search-bar" placeholder="Search for name..." />
-          <input type="checkbox" class="checkbox" id="filter-mega" />
-          <label for="filter only mega"
-            ><span class="full-text">Search for mega</span>
-            <span class="short-text">Mega</span></label
-          >
-          <input type="checkbox" class="checkbox" id="filter-gmax" />
-          <label class="gMax" for="filter only gmax"
-            ><span class="full-text">Search for Gmax</span>
-            <span class="short-text">Gmax</span></label
-          >
+          <div class="checkbox-container">
+            <div>
+              <input type="checkbox" class="checkbox" id="filter-mega" />
+              <label for="filter only mega"
+                ><span class="full-text">Search for mega</span>
+                <span class="short-text">Mega</span></label
+              >
+            </div>
+            <div>
+              <input type="checkbox" class="checkbox" id="filter-gmax" />
+              <label class="gMax" for="filter only gmax"
+                ><span class="full-text">Search for Gmax</span>
+                <span class="short-text">Gmax</span></label
+              >
+            </div>
+          </div>
         </div>
         <div id="search-and-select">
           <label class="pokemon-perPage" for="pokemon-amount"

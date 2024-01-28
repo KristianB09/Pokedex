@@ -153,6 +153,16 @@ select {
   cursor: pointer;
 }
 
+#search-filter {
+  display: flex;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 #search-filter label {
   font-size: 1.4rem;
   margin: 0;
