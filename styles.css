@@ -294,11 +294,14 @@ select {
 @media screen and (max-width: 410px) {
   #search-bar {
     width: 15rem;
+    text-indent: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 
 @media screen and (max-width: 390px) {
   #search-bar {
     width: 12rem;
+    font-size: 1.05rem;
   }
 }
