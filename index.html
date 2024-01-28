@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="font-size: 10px">
+<html lang="en">
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,12 +24,21 @@
         <div id="search-filter">
           <input type="text" id="search-bar" placeholder="Search for name..." />
           <input type="checkbox" class="checkbox" id="filter-mega" />
-          <label for="filter only mega">Search for mega</label>
+          <label for="filter only mega"
+            ><span class="full-text">Search for mega</span>
+            <span class="short-text">Mega</span></label
+          >
           <input type="checkbox" class="checkbox" id="filter-gmax" />
-          <label for="filter only gmax">Search for Gmax</label>
+          <label class="gMax" for="filter only gmax"
+            ><span class="full-text">Search for Gmax</span>
+            <span class="short-text">Gmax</span></label
+          >
         </div>
         <div id="search-and-select">
-          <label for="pokemon-amount">Pokemon per page:</label>
+          <label class="pokemon-perPage" for="pokemon-amount"
+            ><span class="full-text">Pokemon per page:</span
+            ><span class="short-text">per page:</span></label
+          >
           <select name="pokemon per page" id="pokemon-amount">
             <option value="20">20</option>
             <option value="50">50</option>

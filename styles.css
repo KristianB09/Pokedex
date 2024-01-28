@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 10px;
+}
+
 body .nav-container {
   width: 100%;
   background-color: #b45c64;
@@ -26,9 +30,6 @@ nav {
   background-color: #b45c64;
   width: 93%;
   z-index: 2;
-}
-
-#home-button {
 }
 
 header {
@@ -200,8 +201,104 @@ select {
   color: #ff0033;
 }
 
-@media (max-width: 1340px) {
+@media screen and (max-width: 1360px) {
+  /* This html tag doesn't work in chrome? I have not found a solution to this, if anyone knows, please send me a message! */
   html {
     font-size: 9px;
+  }
+
+  nav #home-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  nav {
+    width: 97%;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  #search-bar {
+    width: 30rem;
+  }
+
+  label {
+    font-size: 1.6rem;
+  }
+
+  select {
+    margin-left: 0.6rem;
+    font-size: 1.3rem;
+    height: 3rem;
+    width: 5rem;
+  }
+
+  /* select {
+    border: none;
+    height: 4rem;
+    width: 6rem;
+    text-align: center;
+    padding-left: 1rem;
+    margin-left: 2rem;
+    border-radius: 20rem;
+    font-family: "Montserrat";
+    font-size: 1.6rem;
+  } */
+}
+
+@media screen and (max-width: 850px) {
+  .full-text {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .short-text {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 705px) {
+  #search-bar {
+    width: 25rem;
+  }
+
+  .gMax {
+    margin-left: 0.5rem;
+  }
+
+  .pokemon-perPage {
+    margin-left: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  #search-and-select .short-text {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #search-bar {
+    width: 20rem;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  #search-bar {
+    width: 17rem;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  #search-bar {
+    width: 15rem;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  #search-bar {
+    width: 12rem;
   }
 }
