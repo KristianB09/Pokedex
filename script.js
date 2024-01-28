@@ -1,3 +1,26 @@
+// type colors:
+
+const typeColors = {
+  grass: "#63BC5A",
+  fire: "#FF9D55",
+  water: "#5090D6",
+  electric: "#F4D23C",
+  rock: "#C5B78C",
+  normal: "#929DA3",
+  flying: "#8FA9DE",
+  steel: "#5A8EA2",
+  fighting: "#CE416B",
+  poison: "#AA6BC8",
+  ground: "#D97845",
+  bug: "#91C12F",
+  ghost: "#5269AD",
+  psychic: "#FA7179",
+  ice: "#73CEC0",
+  dragon: "#0B6DC3",
+  dark: "#5A5465",
+  fairy: "#EC8FE6",
+};
+
 // getting html elements
 const homeButton = document.getElementById("home-button");
 const prevButton = document.getElementById("previous-button");
@@ -114,6 +137,7 @@ async function displayPokemonList(url) {
     pokemonExtraData.types.forEach((type) => {
       const typeEl = document.createElement("p");
       typeEl.textContent = type.type.name;
+      typeEl.style.backgroundColor = typeColors[type.type.name] || "gray";
       typesContainer.append(typeEl);
       typeEl.classList.add("type");
     });
