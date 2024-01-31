@@ -118,6 +118,9 @@ async function displayPokemonList(url) {
   for (const pokemon of pokemonList.results) {
     const pokemonExtraData = await getData(pokemon.url);
 
+    const pokemonAndDetails = document.createElement("div");
+    pokemonAndDetails.classList.add("pokemon-and-details-container");
+
     const containerEl = document.createElement("div");
     containerEl.classList.add("pokemon-container");
 
@@ -149,11 +152,51 @@ async function displayPokemonList(url) {
       pokemonExtraData.sprites.other["official-artwork"].front_default;
 
     containerEl.append(titleEl, imageEl, pokemonBallImageEl, typesContainer);
-    pokemonContainer.append(containerEl);
 
-    containerEl.addEventListener("click", () =>
-      displayPokemonDetails(pokemonExtraData)
-    );
+    containerEl.addEventListener("click", () => {
+      if (!detailsContainer.classList.contains("details-hidden")) {
+        detailsContainer.classList.add("details-hidden");
+      } else if (detailsContainer.classList.contains("details-hidden")) {
+        detailsContainer.classList.remove("details-hidden");
+      }
+    });
+
+    const detailsContainer = document.createElement("div");
+    detailsContainer.classList.add("details-hidden");
+    detailsContainer.classList.add("details");
+    detailsContainer.classList.add("animation");
+
+    let pokemonData = pokemonExtraData;
+
+    const { base_experience, height, weight, stats } = pokemonData;
+
+    const xpEl = document.createElement("p");
+    xpEl.textContent = `Base XP: ${base_experience}`;
+
+    const heightEl = document.createElement("p");
+    heightEl.textContent = `Height: ${height / 10} M`;
+
+    const weightEl = document.createElement("p");
+    weightEl.textContent = `Width: ${weight / 10} Kg`;
+
+    const statsContainer = document.createElement("div");
+    const statsHeaderEl = document.createElement("h3");
+    statsHeaderEl.textContent = "Stats: ";
+    statsContainer.append(statsHeaderEl);
+
+    stats.forEach(({ stat, base_stat, effort }) => {
+      const statEl = document.createElement("p");
+      statEl.textContent = `${stat.name}: ${base_stat} (effort: ${effort})`;
+
+      statsContainer.append(statEl);
+
+      console.log(stat);
+    });
+
+    detailsContainer.append(xpEl, heightEl, weightEl, statsContainer);
+    containerEl.after(detailsContainer);
+    pokemonAndDetails.append(containerEl, detailsContainer);
+    pokemonContainer.append(pokemonAndDetails);
   }
 }
 
@@ -161,8 +204,7 @@ async function displayPokemonList(url) {
 async function displayPokemonDetails(pokemonData) {
   pokemonContainer.innerHTML = "";
 
-  const { id, name, sprites, base_experience, height, weight, types, stats } =
-    pokemonData;
+  const { base_experience, height, weight, types, stats } = pokemonData;
   const containerEl = document.createElement("div");
   const titleEl = document.createElement("h2");
 

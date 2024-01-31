@@ -137,6 +137,7 @@ select {
   border-radius: 1rem;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .pokeball {
@@ -198,6 +199,41 @@ select {
   font-size: 1.6rem;
   margin-bottom: 1rem;
   font-family: "Montserrat";
+}
+
+.details {
+  font-family: "Montserrat";
+  position: relative;
+  top: -1.7rem;
+  z-index: -1;
+  font-size: 1.5rem;
+  text-align: left;
+  padding-left: 2rem;
+  background-color: hsl(0, 0%, 94%);
+  max-width: 100%;
+  border-radius: 1rem;
+  padding-top: 1.7rem;
+  padding-bottom: 2rem;
+  max-height: 45rem;
+  overflow: hidden;
+}
+
+.animation {
+  transition: all 0.4s ease-in-out;
+}
+
+.details p {
+  padding-top: 1rem;
+}
+
+.details div h3 {
+  font-size: 2rem;
+  margin-top: 0.9rem;
+}
+
+.details-hidden {
+  visibility: hidden;
+  max-height: 0;
 }
 
 #error-message {
