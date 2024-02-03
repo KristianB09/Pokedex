@@ -31,6 +31,9 @@ const howManyPokemon = document.getElementById("pokemon-amount");
 const searchBarEl = document.getElementById("search-bar");
 const megaFilter = document.getElementById("filter-mega");
 const gmaxFilter = document.getElementById("filter-gmax");
+const sortByButton = document.getElementById("sort-by-button");
+const dropdownMenu = document.getElementById("dropdown-menu");
+const sortOption = document.querySelectorAll(".sort-option");
 
 let pokemonAmount = howManyPokemon.value;
 
@@ -189,8 +192,6 @@ async function displayPokemonList(url) {
       statEl.textContent = `${stat.name}: ${base_stat} (effort: ${effort})`;
 
       statsContainer.append(statEl);
-
-      console.log(stat);
     });
 
     detailsContainer.append(xpEl, heightEl, weightEl, statsContainer);
@@ -198,67 +199,6 @@ async function displayPokemonList(url) {
     pokemonAndDetails.append(containerEl, detailsContainer);
     pokemonContainer.append(pokemonAndDetails);
   }
-}
-
-// What is displayed after you click on a specific pokemon to see details
-async function displayPokemonDetails(pokemonData) {
-  pokemonContainer.innerHTML = "";
-
-  const { base_experience, height, weight, types, stats } = pokemonData;
-  const containerEl = document.createElement("div");
-  const titleEl = document.createElement("h2");
-
-  titleEl.textContent = `${id}. ${name}`;
-  titleEl.classList.add("title");
-
-  const imageEl = document.createElement("img");
-  imageEl.alt = `image of ${name}`;
-  imageEl.style = "max-width: 40%;";
-  imageEl.src = sprites.other["official-artwork"].front_default;
-
-  const xpEl = document.createElement("p");
-  xpEl.textContent = `XP: ${base_experience}`;
-
-  const heightEl = document.createElement("p");
-  heightEl.textContent = `Height: ${height / 10} M`;
-
-  const weightEl = document.createElement("p");
-  weightEl.textContent = `Width: ${weight / 10} Kg`;
-
-  const typesContainer = document.createElement("div");
-  const typesHeaderEl = document.createElement("h3");
-  typesHeaderEl.textContent = "Types: ";
-  typesContainer.append(typesHeaderEl);
-
-  types.forEach((type) => {
-    const typeEl = document.createElement("p");
-    typeEl.textContent = type.type.name;
-    typesContainer.append(typeEl);
-  });
-
-  const statsContainer = document.createElement("div");
-  const statsHeaderEl = document.createElement("h3");
-  statsHeaderEl.textContent = "Stats: ";
-  statsContainer.append(statsHeaderEl);
-
-  stats.forEach(({ stat, base_stat, effort }) => {
-    const statEl = document.createElement("p");
-    statEl.textContent = `${stat.name}: ${base_stat} (effort: ${effort})`;
-
-    statsContainer.append(statEl);
-
-    console.log(stat);
-  });
-  containerEl.append(
-    titleEl,
-    imageEl,
-    xpEl,
-    heightEl,
-    weightEl,
-    typesContainer,
-    statsContainer
-  );
-  pokemonContainer.append(containerEl);
 }
 
 pokemonContainer.classList.add("main-container");
@@ -354,3 +294,37 @@ searchBarEl.addEventListener("keyup", () => {
 
   timeOut = setTimeout(searchPokemon, 1000);
 });
+
+// sort by dropdown menu
+
+sortByButton.addEventListener("click", () => {
+  if (dropdownMenu.classList.contains("hidden")) {
+    dropdownMenu.classList.remove("hidden");
+  } else if (!dropdownMenu.classList.contains("hidden")) {
+    dropdownMenu.classList.add("hidden");
+  }
+});
+
+// sort by buttons/alternatives
+
+sortOption.forEach((option) => {
+  option.addEventListener("click", (event) => {
+    const sortValue = event.target.textContent.toLowerCase();
+    console.log(sortValue);
+    sortPokemon(sortValue);
+  });
+});
+
+async function sortPokemon(sortCriteria) {
+  const pokemonResult = await getData(
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=-1"
+  );
+
+  const fetchPokemon = pokemonResult.results.map((pokemon) =>
+    getData(pokemon.url)
+  );
+
+  const fullPokemonArray = await Promise.all(fetchPokemon);
+
+  console.log(fullPokemonArray);
+}
