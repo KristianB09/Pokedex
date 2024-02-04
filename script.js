@@ -22,7 +22,7 @@ const typeColors = {
 };
 
 // getting html elements
-const homeButton = document.getElementById("home-button");
+const homeButton = document.querySelectorAll(".home-button");
 const prevButton = document.getElementById("previous-button");
 const nextButton = document.getElementById("next-button");
 const errorMessageEl = document.getElementById("error-message");
@@ -47,8 +47,10 @@ howManyPokemon.addEventListener("change", () => {
   displayPokemonList(pokedexUrl);
 });
 
-homeButton.addEventListener("click", () => {
-  displayPokemonList();
+homeButton.forEach((button) => {
+  button.addEventListener("click", () => {
+    displayPokemonList();
+  });
 });
 
 nextButton.addEventListener("click", () => {
