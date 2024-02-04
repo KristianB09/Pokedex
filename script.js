@@ -31,7 +31,7 @@ const howManyPokemon = document.getElementById("pokemon-amount");
 const searchBarEl = document.getElementById("search-bar");
 const megaFilter = document.getElementById("filter-mega");
 const gmaxFilter = document.getElementById("filter-gmax");
-const sortByButton = document.getElementById("sort-by-button");
+const generationButton = document.getElementById("generation-button");
 const dropdownMenu = document.getElementById("dropdown-menu");
 const sortOption = document.querySelectorAll(".sort-option");
 
@@ -212,6 +212,9 @@ async function displaySearchedPokemonList(pokemonArray) {
   for (const pokemon of pokemonArray) {
     const pokemonExtraData = await getData(pokemon.url);
 
+    const pokemonAndDetails = document.createElement("div");
+    pokemonAndDetails.classList.add("pokemon-and-details-container");
+
     const containerEl = document.createElement("div");
     containerEl.classList.add("pokemon-container");
 
@@ -225,18 +228,67 @@ async function displaySearchedPokemonList(pokemonArray) {
       "transparent pokeball in the background of pokemon";
     pokemonBallImageEl.classList.add("pokeball");
 
+    const typesContainer = document.createElement("div");
+    typesContainer.classList.add("types");
+
+    pokemonExtraData.types.forEach((type) => {
+      const typeEl = document.createElement("p");
+      typeEl.textContent = type.type.name;
+      typeEl.style.backgroundColor = typeColors[type.type.name] || "gray";
+      typesContainer.append(typeEl);
+      typeEl.classList.add("type");
+    });
+
     const imageEl = document.createElement("img");
     imageEl.alt = `image of ${pokemon.name}`;
     imageEl.style = "max-width: 40%;";
     imageEl.src =
       pokemonExtraData.sprites.other["official-artwork"].front_default;
 
-    containerEl.append(titleEl, imageEl, pokemonBallImageEl);
-    pokemonContainer.append(containerEl);
+    containerEl.append(titleEl, imageEl, pokemonBallImageEl, typesContainer);
 
-    containerEl.addEventListener("click", () =>
-      displayPokemonDetails(pokemonExtraData)
-    );
+    containerEl.addEventListener("click", () => {
+      if (!detailsContainer.classList.contains("details-hidden")) {
+        detailsContainer.classList.add("details-hidden");
+      } else if (detailsContainer.classList.contains("details-hidden")) {
+        detailsContainer.classList.remove("details-hidden");
+      }
+    });
+
+    const detailsContainer = document.createElement("div");
+    detailsContainer.classList.add("details-hidden");
+    detailsContainer.classList.add("details");
+    detailsContainer.classList.add("animation");
+
+    let pokemonData = pokemonExtraData;
+
+    const { base_experience, height, weight, stats } = pokemonData;
+
+    const xpEl = document.createElement("p");
+    xpEl.textContent = `Base XP: ${base_experience}`;
+
+    const heightEl = document.createElement("p");
+    heightEl.textContent = `Height: ${height / 10} M`;
+
+    const weightEl = document.createElement("p");
+    weightEl.textContent = `Width: ${weight / 10} Kg`;
+
+    const statsContainer = document.createElement("div");
+    const statsHeaderEl = document.createElement("h3");
+    statsHeaderEl.textContent = "Stats: ";
+    statsContainer.append(statsHeaderEl);
+
+    stats.forEach(({ stat, base_stat, effort }) => {
+      const statEl = document.createElement("p");
+      statEl.textContent = `${stat.name}: ${base_stat} (effort: ${effort})`;
+
+      statsContainer.append(statEl);
+    });
+
+    detailsContainer.append(xpEl, heightEl, weightEl, statsContainer);
+    containerEl.after(detailsContainer);
+    pokemonAndDetails.append(containerEl, detailsContainer);
+    pokemonContainer.append(pokemonAndDetails);
   }
 }
 
@@ -297,7 +349,7 @@ searchBarEl.addEventListener("keyup", () => {
 
 // sort by dropdown menu
 
-sortByButton.addEventListener("click", () => {
+generationButton.addEventListener("click", () => {
   if (dropdownMenu.classList.contains("hidden")) {
     dropdownMenu.classList.remove("hidden");
   } else if (!dropdownMenu.classList.contains("hidden")) {
@@ -305,15 +357,77 @@ sortByButton.addEventListener("click", () => {
   }
 });
 
-// sort by buttons/alternatives
-
 sortOption.forEach((option) => {
+  option.addEventListener("click", (event) => {
+    const genValue = event.target.textContent.toLowerCase();
+    displayGenPokemon(genValue);
+  });
+});
+
+// looked at Camilla's task for this code block. (With some minor alterations) https://github.com/camillab09/pokedex/blob/main/js/script.js
+async function displayGenPokemon(genValue) {
+  if (genValue === "all") {
+    displayPokemonList();
+  }
+  const genPokemons = await genPokemon(genValue);
+  if (genPokemons) {
+    displaySearchedPokemonList(genPokemons);
+  } else {
+    displayError(`The region "${genValue}" is not recognized`);
+  }
+}
+
+async function genPokemon(genValue) {
+  let genUrl;
+
+  switch (genValue) {
+    case "kanto (gen 1)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=151";
+      break;
+    case "johto (gen 2)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=151&limit=100";
+      break;
+    case "hoenn (gen 3)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=251&limit=134";
+      break;
+    case "sinnoh (gen 4)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=386&limit=107";
+      break;
+    case "unova (gen 5)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=494&limit=156";
+      break;
+    case "kalos (gen 6)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=649&limit=72";
+      break;
+    case "alola (gen 7)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=721&limit=88";
+      break;
+    case "galar (gen 8)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=809&limit=96";
+      break;
+    case "paldea (gen 9)":
+      genUrl = "https://pokeapi.co/api/v2/pokemon?offset=905&limit=120";
+      break;
+    default:
+      return null;
+  }
+
+  const genData = await getData(genUrl);
+  return genData.results;
+}
+
+// Tried to add sorting options for  Different criteria. Had to go through all pokemon and push them to an array if the sorting was to be on all the pokemon instead of just the current page. Would be better on a server as it is very slow.
+// If there is another way with vanilla JS, please let me know.
+
+/* sortOption.forEach((option) => {
   option.addEventListener("click", (event) => {
     const sortValue = event.target.textContent.toLowerCase();
     console.log(sortValue);
     sortPokemon(sortValue);
   });
 });
+
+
 
 async function sortPokemon(sortCriteria) {
   const pokemonResult = await getData(
@@ -327,4 +441,4 @@ async function sortPokemon(sortCriteria) {
   const fullPokemonArray = await Promise.all(fetchPokemon);
 
   console.log(fullPokemonArray);
-}
+} */

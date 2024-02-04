@@ -240,12 +240,12 @@ label {
   padding-bottom: 0;
 }
 
-.sort-container {
+.generation-container {
   position: relative;
   height: 100%;
 }
 
-.sort-by-button {
+.generation-button {
   display: flex;
   align-items: center;
   height: 100%;
@@ -260,7 +260,7 @@ label {
   transition: all 250ms ease-in-out;
 }
 
-.sort-by-image {
+.generation-image {
   width: 2.5rem;
   margin-left: 0.7rem;
 }
@@ -278,7 +278,8 @@ label {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
   line-height: 5rem;
   overflow: hidden;
-  max-height: 27.5rem;
+  max-height: 53.5rem;
+  text-wrap: nowrap;
 }
 
 .dropdown-menu li {
